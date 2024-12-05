@@ -39,8 +39,8 @@ class _CadastroState extends State<Cadastro> {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-          key: _formKey,
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 Image.asset(
@@ -54,10 +54,9 @@ class _CadastroState extends State<Cadastro> {
                 TextFormField(
                   controller: _nomeController,
                   validator: (String? value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return "o campo de nome precisa ser preenchido!";
                     }
-                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: "Nome",
@@ -84,7 +83,7 @@ class _CadastroState extends State<Cadastro> {
                 TextFormField(
                   controller: _emailController,
                   validator: (String? value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return "o campo de e-mail precisa ser preenchido!";
                     }
                     if (value.length < 5) {
@@ -96,7 +95,6 @@ class _CadastroState extends State<Cadastro> {
                     if (!value.contains(".")) {
                       return "o campo de e-mail precisa ter o ponto ( . )";
                     }
-                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: "E-mail",
@@ -123,13 +121,12 @@ class _CadastroState extends State<Cadastro> {
                 TextFormField(
                   controller: _senhaController,
                   validator: (String? value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return "o campo de senha precisa ser preenchido!";
                     }
                     if (value.length < 8) {
                       return "o campo de senha precisa ter um mínimo de 8 caracteres!";
                     }
-                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: "Senha",
@@ -159,9 +156,9 @@ class _CadastroState extends State<Cadastro> {
                   child: SizedBox(
                     height: 40,
                     child: ElevatedButton(
-                        onPressed:() {
-                        botaoCads();
-                      } ,
+                        onPressed: () {
+                          botaoCads();
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF43423e),
                             shape: RoundedRectangleBorder(
@@ -177,23 +174,21 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
                 TextButton(
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Login()),
-                        );
-                      });
-                    },
-                    child: const Text(
-                      "Entrar",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ))
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
+                  },
+                  child: const Text(
+                    "Entrar",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -202,7 +197,7 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  botaoCads() {
+  void botaoCads() {
     String email = _emailController.text;
     String senha = _senhaController.text;
     String nome = _nomeController.text;

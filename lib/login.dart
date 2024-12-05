@@ -11,7 +11,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool entrar = true;
-  
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
@@ -23,11 +23,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: (entrar) ? const Color(0xFF43423e): const Color(0xFFedd55a),
+      backgroundColor:
+          (entrar) ? const Color(0xFF43423e) : const Color(0xFFedd55a),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xFFedd55a),
-        title: Text( (entrar) ? "Login" : "Cadastro",
+        title: Text(
+          (entrar) ? "Login" : "Cadastro",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -133,7 +135,7 @@ class _LoginState extends State<Login> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6))),
                       child: Text(
-                         (entrar) ? "Entrar" : "Cadastrar-se",
+                        (entrar) ? "Entrar" : "Cadastrar-se",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -169,27 +171,18 @@ class _LoginState extends State<Login> {
     );
   }
 
-  botaoEntrar() {
-  String email = _emailController.text;
-  String senha = _senhaController.text;
-  String nome = _nomeController.text;
+  void botaoEntrar() {
+    String email = _emailController.text;
+    String senha = _senhaController.text;
+    String nome = _nomeController.text;
 
-  if (_formKey.currentState!.validate()) {
-    if (entrar) {
+    print("Email: $email, Senha: $senha");
+    
+    if (_formKey.currentState!.validate()) {
       print("Entrada validada!");
+      _authServ.logUser(email: email, senha: senha);
     } else {
-      print("Cadastro validado!");
-      print("${_emailController.text}");
-      print("${_senhaController.text}");
-      print("${_nomeController.text}");
-      _authServ.cadUser(
-        email: email,
-        senha: senha,
-        nome: nome
-      );
+      print("Formulário NÃO funcionando");
     }
-  } else {
-    print("Formulário NÃO funcionando");
   }
- }
 }
