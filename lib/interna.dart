@@ -67,7 +67,7 @@ class _InternaState extends State<Interna> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  AuthService().logOut();
+                  AuthService().logOut(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFedd55a),

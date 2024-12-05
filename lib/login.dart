@@ -1,5 +1,6 @@
 import 'package:david_terceiro/auth.dart';
 import 'package:david_terceiro/cadastro.dart';
+import 'package:david_terceiro/interna.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -40,8 +41,8 @@ class _LoginState extends State<Login> {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-          key: _formKey,
           child: Form(
+             key: _formKey,
             child: Column(
               children: [
                 Image.asset(
@@ -171,18 +172,42 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void botaoEntrar() {
-    String email = _emailController.text;
-    String senha = _senhaController.text;
-    String nome = _nomeController.text;
+  botaoEntrar() async {
+  String email = _emailController.text.trim();
+  String senha = _senhaController.text.trim();
 
-    print("Email: $email, Senha: $senha");
-    
-    if (_formKey.currentState!.validate()) {
-      print("Entrada validada!");
-      _authServ.logUser(email: email, senha: senha);
+  if (_formKey.currentState!.validate()) {
+    print("Entrada validada!");
+    var resultado = await _authServ.logUser(email: email, senha: senha);
+
+    if (resultado == null) {
+      // Login bem-sucedido
+      print("Login bem-sucedido!");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Interna(), // Página pós-login
+        ),
+      );
     } else {
-      print("Formulário NÃO funcionando");
+      // Erro no login
+      print("Erro no login: $resultado");
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Erro no Login"),
+          content: Text(resultado),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Ok"),
+            ),
+          ],
+        ),
+      );
     }
+  } else {
+    print("Formulário NÃO validado");
   }
+}
 }
