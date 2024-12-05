@@ -1,25 +1,33 @@
+import 'package:david_terceiro/auth.dart';
 import 'package:david_terceiro/cadastro.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  bool entrar = true;
+  
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _nomeController = TextEditingController();
+
+  final AuthService _authServ = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF43423e),
+      backgroundColor: (entrar) ? const Color(0xFF43423e): const Color(0xFFedd55a),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xFFedd55a),
-        title: const Text(
-          "Login",
+        title: Text( (entrar) ? "Login" : "Cadastro",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -35,7 +43,7 @@ class _LoginState extends State<Login> {
             child: Column(
               children: [
                 Image.asset(
-                  'assets/images/banana-icon.jpg',
+                  'assets/banana-icon.jpg',
                   width: 110,
                   height: 110,
                 ),
@@ -43,6 +51,7 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _emailController,
                   validator: (String? value) {
                     if (value == null) {
                       return "o campo de e-mail precisa ser preenchido!";
@@ -81,6 +90,7 @@ class _LoginState extends State<Login> {
                   height: 7,
                 ),
                 TextFormField(
+                  controller: _senhaController,
                   validator: (String? value) {
                     if (value == null) {
                       return "o campo de senha precisa ser preenchido!";
@@ -122,8 +132,8 @@ class _LoginState extends State<Login> {
                           backgroundColor: const Color(0xFFedd55a),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6))),
-                      child: const Text(
-                        "Entrar",
+                      child: Text(
+                         (entrar) ? "Entrar" : "Cadastrar-se",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -160,11 +170,26 @@ class _LoginState extends State<Login> {
   }
 
   botaoEntrar() {
-    if (_formKey.currentState!.validate()) {
-      print("funcionando!");
-    } else {
-      print("Não funciona :(");
-    }
-  }
-}
+  String email = _emailController.text;
+  String senha = _senhaController.text;
+  String nome = _nomeController.text;
 
+  if (_formKey.currentState!.validate()) {
+    if (entrar) {
+      print("Entrada validada!");
+    } else {
+      print("Cadastro validado!");
+      print("${_emailController.text}");
+      print("${_senhaController.text}");
+      print("${_nomeController.text}");
+      _authServ.cadUser(
+        email: email,
+        senha: senha,
+        nome: nome
+      );
+    }
+  } else {
+    print("Formulário NÃO funcionando");
+  }
+ }
+}

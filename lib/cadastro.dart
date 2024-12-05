@@ -1,8 +1,9 @@
+import 'package:david_terceiro/auth.dart';
 import 'package:david_terceiro/login.dart';
 import 'package:flutter/material.dart';
 
 class Cadastro extends StatefulWidget {
-  const Cadastro({Key? key}) : super(key: key);
+  const Cadastro({super.key});
 
   @override
   State<Cadastro> createState() => _CadastroState();
@@ -10,6 +11,14 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _senhaController = TextEditingController();
+
+  final TextEditingController _nomeController = TextEditingController();
+
+  final AuthService _authServ = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,7 @@ class _CadastroState extends State<Cadastro> {
             child: Column(
               children: [
                 Image.asset(
-                  'assets/images/banana-icon.jpg',
+                  'assets/banana-icon.jpg',
                   width: 110,
                   height: 110,
                 ),
@@ -43,6 +52,7 @@ class _CadastroState extends State<Cadastro> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _nomeController,
                   validator: (String? value) {
                     if (value == null) {
                       return "o campo de nome precisa ser preenchido!";
@@ -72,6 +82,7 @@ class _CadastroState extends State<Cadastro> {
                   height: 7,
                 ),
                 TextFormField(
+                  controller: _emailController,
                   validator: (String? value) {
                     if (value == null) {
                       return "o campo de e-mail precisa ser preenchido!";
@@ -110,6 +121,7 @@ class _CadastroState extends State<Cadastro> {
                   height: 7,
                 ),
                 TextFormField(
+                  controller: _senhaController,
                   validator: (String? value) {
                     if (value == null) {
                       return "o campo de senha precisa ser preenchido!";
@@ -142,39 +154,14 @@ class _CadastroState extends State<Cadastro> {
                 const SizedBox(
                   height: 7,
                 ),
-                TextFormField(
-                  validator: (String? value) {
-                    if (value == null) {
-                      return "o campo de confirme a senha precisa ser preenchido!";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Confirme a Senha",
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintStyle: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w200,
-                      fontSize: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  obscureText: true,
-                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15, bottom: 15),
                   child: SizedBox(
                     height: 40,
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed:() {
+                        botaoCads();
+                      } ,
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF43423e),
                             shape: RoundedRectangleBorder(
@@ -213,5 +200,23 @@ class _CadastroState extends State<Cadastro> {
         ),
       ),
     );
+  }
+
+  botaoCads() {
+    String email = _emailController.text;
+    String senha = _senhaController.text;
+    String nome = _nomeController.text;
+
+    print("Email: $email, Senha: $senha, Nome: $nome");
+
+    if (_formKey.currentState!.validate()) {
+      print("Cadastro validado!");
+      print("${_emailController.text}");
+      print("${_senhaController.text}");
+      print("${_nomeController.text}");
+      _authServ.cadUser(email: email, senha: senha, nome: nome);
+    } else {
+      print("Formulário NÃO funcionando");
+    }
   }
 }

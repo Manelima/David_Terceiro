@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "296060200918",
+    "project_id": "david-terceiro",
+    "storage_bucket": "david-terceiro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296060200918:android:34dd979a3680be063c2677",
+        "android_client_info": {
+          "package_name": "com.example.david_terceiro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfaCmhbYGLu20OZEI5wJkSiRRrhtHnty0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

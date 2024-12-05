@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Image.asset(
-              "assets/images/banana-logo.jpg",
+              "assets/banana-logo.jpg",
               height: 220,
               width: 220,
             ),
